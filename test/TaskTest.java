@@ -1,17 +1,17 @@
-import org.junit.Test;
-
+import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import models.Task;
+
+import org.junit.Test;
 
 public class TaskTest {
 
     @Test
     public void create() {
         running(fakeApplication(), new Runnable() {
+            @Override
             public void run() {
                 Task task = new Task();
                 task.contents = "Write a test";

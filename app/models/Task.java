@@ -1,9 +1,9 @@
 package models;
 
-import play.db.ebean.Model;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import play.db.ebean.Model;
 
 @Entity
 public class Task extends Model {
