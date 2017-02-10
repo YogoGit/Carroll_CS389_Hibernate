@@ -14,10 +14,14 @@ public class TaskTest {
         running(fakeApplication(), new Runnable() {
             @Override
             public void run() {
-                Task task = new Task();
-                task.setContents("Write a test");
-                JPA.em().persist(task);
-                assertNotNull(task.getId());
+                JPA.withTransaction(new play.libs.F.Callback0() {
+                    public void invoke() throws Throwable {
+                        Task task = new Task();
+                        task.setContents("Write a test");
+                        JPA.em().persist(task);
+                        assertNotNull(task.getId());
+                    }
+                });
             }
         });
     }
