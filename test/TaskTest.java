@@ -1,10 +1,11 @@
-import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
 import models.Task;
-
 import org.junit.Test;
+import play.db.jpa.JPA;
 
 public class TaskTest {
 
@@ -14,11 +15,10 @@ public class TaskTest {
             @Override
             public void run() {
                 Task task = new Task();
-                task.contents = "Write a test";
-                task.save();
-                assertThat(task.id).isNotNull();
+                task.setContents("Write a test");
+                JPA.em().persist(task);
+                assertNotNull(task.getId());
             }
         });
     }
-
 }

@@ -1,31 +1,39 @@
 package controllers;
 
+import models.Task;
+
+import play.data.Form;
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import views.html.index;
 
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(index.render("hello, world", play.data.Form.form(models.Task.class)));
+        return ok(index.render("hello, world", Form.form(Task.class)));
     }
 
+    @Transactional
     public static Result addTask() {
-        play.data.Form<models.Task> form = play.data.Form.form(models.Task.class).bindFromRequest();
+        Form<Task> form = Form.form(Task.class).bindFromRequest();
         if (form.hasErrors()) {
             return badRequest(index.render("hello, world", form));
         }
-        else {
-            models.Task task = form.get();
-            task.save();
-            return redirect(routes.Application.index());
-        }
+
+        Task task = form.get();
+        JPA.em().persist(task);
+        return redirect(routes.Application.index());
     }
 
+    @Transactional
     public static Result getTasks() {
-        java.util.List<models.Task> tasks = new play.db.ebean.Model.Finder(String.class, models.Task.class).all();
+        List<Task> tasks = JPA.em().createQuery("from Task", Task.class).getResultList();
         return ok(play.libs.Json.toJson(tasks));
     }
-
 }
