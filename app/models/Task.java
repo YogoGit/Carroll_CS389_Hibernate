@@ -11,16 +11,16 @@ public class Task {
 
     @Id
     @GeneratedValue
-    private String id;
+    private Long id;
 
     @Required
     private String contents;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
