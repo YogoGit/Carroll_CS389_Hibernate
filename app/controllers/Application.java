@@ -3,7 +3,6 @@ package controllers;
 import models.Task;
 
 import services.TaskPersistenceService;
-import services.TaskPersistenceServiceImpl;
 
 import views.html.index;
 
@@ -14,16 +13,21 @@ import play.mvc.Result;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@Named
 public class Application extends Controller {
 
-    private static final TaskPersistenceService taskPersist = new TaskPersistenceServiceImpl();
+    @Inject
+    private TaskPersistenceService taskPersist;
 
-    public static Result index() {
+    public Result index() {
         return ok(index.render("hello, world", Form.form(Task.class)));
     }
 
     @Transactional
-    public static Result addTask() {
+    public Result addTask() {
         Form<Task> form = Form.form(Task.class).bindFromRequest();
         if (form.hasErrors()) {
             return badRequest(index.render("hello, world", form));
@@ -36,7 +40,7 @@ public class Application extends Controller {
     }
 
     @Transactional
-    public static Result getTasks() {
+    public Result getTasks() {
         List<Task> tasks = taskPersist.fetchAllTasks();
         return ok(play.libs.Json.toJson(tasks));
     }
