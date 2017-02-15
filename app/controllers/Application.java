@@ -2,18 +2,21 @@ package controllers;
 
 import models.Task;
 
+import services.TaskPersistenceService;
+import services.TaskPersistenceServiceImpl;
+
+import views.html.index;
+
 import play.data.Form;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import views.html.index;
-
 public class Application extends Controller {
+
+    private static final TaskPersistenceService taskPersist = new TaskPersistenceServiceImpl();
 
     public static Result index() {
         return ok(index.render("hello, world", Form.form(Task.class)));
@@ -27,13 +30,14 @@ public class Application extends Controller {
         }
 
         Task task = form.get();
-        JPA.em().persist(task);
+
+        taskPersist.saveTask(task);
         return redirect(routes.Application.index());
     }
 
     @Transactional
     public static Result getTasks() {
-        List<Task> tasks = JPA.em().createQuery("from Task", Task.class).getResultList();
+        List<Task> tasks = taskPersist.fetchAllTasks();
         return ok(play.libs.Json.toJson(tasks));
     }
 }
