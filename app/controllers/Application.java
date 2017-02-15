@@ -7,7 +7,6 @@ import services.TaskPersistenceService;
 import views.html.index;
 
 import play.data.Form;
-import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -26,7 +25,6 @@ public class Application extends Controller {
         return ok(index.render("hello, world", Form.form(Task.class)));
     }
 
-    @Transactional
     public Result addTask() {
         Form<Task> form = Form.form(Task.class).bindFromRequest();
         if (form.hasErrors()) {
@@ -39,7 +37,6 @@ public class Application extends Controller {
         return redirect(routes.Application.index());
     }
 
-    @Transactional
     public Result getTasks() {
         List<Task> tasks = taskPersist.fetchAllTasks();
         return ok(play.libs.Json.toJson(tasks));
