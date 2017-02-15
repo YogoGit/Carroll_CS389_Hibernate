@@ -1,6 +1,7 @@
 package controllers;
 
-import models.Task;
+import jpa.Task;
+import models.TaskForm;
 
 import services.TaskPersistenceService;
 
@@ -22,17 +23,17 @@ public class Application extends Controller {
     private TaskPersistenceService taskPersist;
 
     public Result index() {
-        return ok(index.render("hello, world", Form.form(Task.class)));
+        return ok(index.render("hello, world", Form.form(TaskForm.class)));
     }
 
     public Result addTask() {
-        Form<Task> form = Form.form(Task.class).bindFromRequest();
+        Form<TaskForm> form = Form.form(TaskForm.class).bindFromRequest();
         if (form.hasErrors()) {
             return badRequest(index.render("hello, world", form));
         }
 
-        Task task = form.get();
-
+        Task task = new Task();
+        task.setContents(form.get().getContents());
         taskPersist.saveTask(task);
         return redirect(routes.Application.index());
     }

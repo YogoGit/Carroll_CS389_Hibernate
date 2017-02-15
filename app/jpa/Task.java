@@ -1,6 +1,4 @@
-package models;
-
-import play.data.validation.Constraints.Required;
+package jpa;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ public class Task {
     @GeneratedValue
     private Long id;
 
-    @Required
     private String contents;
 
     public Long getId() {

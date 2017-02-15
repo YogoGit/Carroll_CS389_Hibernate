@@ -1,6 +1,6 @@
 package services;
 
-import models.Task;
+import jpa.Task;
 
 import java.util.List;
 
