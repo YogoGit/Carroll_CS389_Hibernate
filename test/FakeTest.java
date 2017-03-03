@@ -4,6 +4,6 @@ import org.junit.Test;
 class FakeTest {
     @Test
     public void fakeTest() {
-        assertTrue(true);
+        assertTrue("Wha..., true is not true", true);
     }
 }
