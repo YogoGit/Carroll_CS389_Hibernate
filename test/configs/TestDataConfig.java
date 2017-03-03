@@ -25,7 +25,7 @@ public class TestDataConfig {
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setShowSql(true);
+        vendorAdapter.setShowSql(false);
         vendorAdapter.setGenerateDdl(true);
         vendorAdapter.setDatabase(Database.H2);
 
