@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 @ContextConfiguration(classes = {AppConfig.class, TestDataConfig.class})
 public class TaskPersistenceServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
@@ -48,6 +49,18 @@ public class TaskPersistenceServiceTest extends AbstractTransactionalJUnit4Sprin
             taskPersist.saveTask(t);
             fail("This should have failed since contents is blank");
         } catch (IllegalArgumentException ignored) {
+        }
+    }
+
+    @Test
+    public void saveNonBlankIdTaskTest() {
+        try {
+            final Task t = new Task();
+            t.setContents("contents");
+            t.setId(1L);
+            taskPersist.saveTask(t);
+            fail("This should have failed since id is not blank");
+        } catch (PersistenceException ignored) {
         }
     }
 }
