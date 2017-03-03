@@ -1,5 +1,7 @@
 package services;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -32,7 +34,9 @@ public class TaskPersistenceServiceTest extends AbstractTransactionalJUnit4Sprin
 
         final Task t = new Task();
         t.setContents("contents");
+        assertNull("ID should not be set before persist is called", t.getId());
         taskPersist.saveTask(t);
+        assertNotNull("ID should be set after persist is called", t.getId());
         final List<Task> list = taskPersist.fetchAllTasks();
         assertTrue("List should have one element", list.size() == 1);
     }
