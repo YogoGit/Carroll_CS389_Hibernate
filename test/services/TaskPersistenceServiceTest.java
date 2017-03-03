@@ -63,4 +63,18 @@ public class TaskPersistenceServiceTest extends AbstractTransactionalJUnit4Sprin
         } catch (PersistenceException ignored) {
         }
     }
+
+    @Test
+    public void saveExistingTaskTest() {
+        final Task t = new Task();
+        t.setContents("contents");
+        taskPersist.saveTask(t);
+        assertNotNull("The ID should be set", t.getId());
+        final List<Task> list = taskPersist.fetchAllTasks();
+        assertTrue("List should have one element", list.size() == 1);
+
+        // Attempt to save the same task again, should fail?
+        taskPersist.saveTask(t);
+        fail("We shouldn't be able to resave the same item");
+    }
 }
