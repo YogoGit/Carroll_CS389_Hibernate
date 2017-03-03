@@ -40,4 +40,14 @@ public class TaskPersistenceServiceTest extends AbstractTransactionalJUnit4Sprin
         final List<Task> list = taskPersist.fetchAllTasks();
         assertTrue("List should have one element", list.size() == 1);
     }
+
+    @Test
+    public void saveBlankTaskTest() {
+        try {
+            final Task t = new Task();
+            taskPersist.saveTask(t);
+            fail("This should have failed since contents is blank");
+        } catch (IllegalArgumentException ignored) {
+        }
+    }
 }
