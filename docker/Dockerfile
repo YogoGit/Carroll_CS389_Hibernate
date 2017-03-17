@@ -1,4 +1,4 @@
-FROM java:latest
+FROM anapsix/alpine-java:8_server-jre
 
 ENV ZIP=play2torial-1.0-SNAPSHOT.zip
 ADD $ZIP /
