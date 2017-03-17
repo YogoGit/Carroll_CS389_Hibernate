@@ -6,4 +6,7 @@ ADD $ZIP /
 RUN unzip /$ZIP && rm $ZIP
 WORKDIR /play2torial-1.0-SNAPSHOT
 
-ENTRYPOINT ["/bin/sh", "-c", "bin/play2torial"]
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/bin/sh", "-c", "bin/play2torial"]
